@@ -1,2 +1,202 @@
-# Krishnaweb
-First time try
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishna Kumar | Portfolio & Trader</title>
+    <style>
+        :root {
+            --bg-color: linear-gradient(135deg, #1e3c72, #2a5298);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #fff;
+            --accent-color: #00BFFF;
+        }
+
+        .light-theme {
+            --bg-color: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --text-color: #333;
+            --accent-color: #007bff;
+        }
+
+        body {
+            background: var(--bg-color);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text-color);
+            transition: 0.5s;
+        }
+
+        .card, .project-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .card { padding: 30px; text-align: center; max-width: 450px; width: 90%; margin-top: 50px; }
+
+        .portfolio-section {
+            max-width: 800px; width: 100%;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-top: 20px;
+        }
+
+        .project-box { padding: 20px; text-align: center; cursor: pointer; }
+        .project-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.2); }
+
+        .insta-btn, .wa-btn {
+            display: inline-block; text-decoration: none; color: white !important;
+            padding: 10px 25px; border-radius: 50px; font-weight: bold; margin-top: 15px;
+        }
+
+        .insta-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743); }
+        .wa-btn { background: #25D366; width: 80%; }
+
+        /* Calculator Input Style */
+        .calc-input {
+            width: 100%; padding: 10px; margin: 5px 0; border-radius: 8px; border: none; background: rgba(255,255,255,0.2); color: white;
+        }
+
+        /* AI Chatbot Styles */
+        #chat-box {
+            display: none; position: fixed; bottom: 90px; right: 20px;
+            width: 320px; height: 450px; background: white; border-radius: 15px;
+            z-index: 2000; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        #chat-content { flex: 1; padding: 15px; overflow-y: auto; color: #333; background: #f4f7f6; display: flex; flex-direction: column; }
+        .chat-msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 10px; font-size: 14px; max-width: 80%; }
+        .ai-msg { background: #e1f5fe; align-self: flex-start; }
+        .user-msg { background: #dcf8c6; align-self: flex-end; text-align: right; }
+    </style>
+</head>
+<body>
+
+    <button id="theme-btn" style="position: absolute; top:20px; right:20px; padding:10px; border-radius:20px; border:none; cursor:pointer;">अंधेरा/उजाला</button>
+
+    <div class="card">
+        <h1>🌐KRISH__NA🌐</h1>
+        <p>Web Developer & Forex Trader</p>
+        <a href="https://www.instagram.com/latest_krishan" target="_blank" class="insta-btn">Instagram</a>
+    </div>
+
+    <h2 style="margin-top: 40px;">मेरे प्रोजेक्ट्स और टूल्स</h2>
+    <div class="portfolio-section">
+        <div class="project-box">
+            <h3>📈 Forex Tracker</h3>
+            <div id="live-rate" style="font-size: 1.5rem; color: #00FFCC; font-weight: bold;">₹--.--</div>
+            <p style="font-size: 0.8rem;">Live USD/INR</p>
+        </div>
+
+        <div class="project-box" onclick="toggleChat()">
+            <h3>🤖 AI Chatbot</h3>
+            <p>मुझसे बातें करने के लिए यहाँ क्लिक करें!</p>
+        </div>
+    </div>
+
+    <h2 style="margin-top: 40px;">Trading Calculator</h2>
+    <div class="card" style="text-align: left;">
+        <label>Capital ($):</label>
+        <input type="number" id="capital" class="calc-input" placeholder="जैसे: 1000">
+        <label>Profit (%):</label>
+        <input type="number" id="percent" class="calc-input" placeholder="जैसे: 10">
+        <button onclick="calcProfit()" class="insta-btn" style="width:100%; border:none; cursor:pointer;">हिसाब करें</button>
+        <p id="calc-result" style="margin-top:15px; font-weight:bold; text-align:center;"></p>
+    </div>
+
+    <h2 style="margin-top: 40px;">Get In Touch</h2>
+    <div class="card" style="text-align: left;">
+        <form action="https://formspree.io/f/bhaix9204@gmail.com" method="POST">
+            <input type="text" name="name" placeholder="आपका नाम" required style="width:100%; margin-bottom:10px; padding:10px; border-radius:10px; border:none;">
+            <textarea name="message" placeholder="मैसेज..." style="width:100%; margin-bottom:10px; padding:10px; border-radius:10px; border:none;"></textarea>
+            <button type="submit" class="insta-btn" style="width:100%; border:none; cursor:pointer;">ईमेल भेजें</button>
+        </form>
+        <center><a href="https://wa.me/918544512154?text=नमस्ते%20कृष्णा!" target="_blank" class="wa-btn">WhatsApp Chat</a></center>
+    </div>
+
+    <div id="chat-box">
+        <div style="background: #1e3c72; color: white; padding: 15px; border-radius: 15px 15px 0 0; display: flex; justify-content: space-between;">
+            <span>Krish AI Assistant</span>
+            <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
+        </div>
+        <div id="chat-content">
+            <div class="chat-msg ai-msg">नमस्ते! मैं कृष्णा का AI हूँ। मैं आपकी क्या मदद कर सकता हूँ?</div>
+        </div>
+        <div style="padding: 10px; border-top: 1px solid #ddd; display: flex;">
+            <input type="text" id="user-input" placeholder="टाइप करें..." style="flex:1; border:none; outline:none; padding:5px; color:#333;">
+            <button onclick="sendMessage()" style="border:none; background:none; color:#1e3c72; cursor:pointer; font-weight:bold;">भेजें</button>
+        </div>
+    </div>
+
+    <button onclick="toggleChat()" style="position:fixed; bottom:20px; right:20px; width:60px; height:60px; border-radius:50%; background:#00BFFF; border:none; font-size:30px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); z-index:2001;">🤖</button>
+
+    <div class="footer">© 2024 Created by KRISHNA KUMAR</div>
+
+    <script>
+        // AI Chatbot Logic
+        function toggleChat() {
+            const chat = document.getElementById('chat-box');
+            chat.style.display = (chat.style.display === 'none' || chat.style.display === '') ? 'flex' : 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const content = document.getElementById('chat-content');
+            if (input.value.trim() !== "") {
+                content.innerHTML += `<div class="chat-msg user-msg">${input.value}</div>`;
+                
+                let val = input.value.toLowerCase();
+                let reply = "मैं कृष्णा के बारे में और जानकारी दे सकता हूँ। आप ट्रेडिंग सीखना चाहते हैं?";
+                
+                if(val.includes("namaste") || val.includes("hello")) reply = "नमस्ते! मैं आपकी क्या सहायता कर सकता हूँ?";
+                if(val.includes("trading")) reply = "कृष्णा फॉरेक्स ट्रेडिंग में एक्सपर्ट हैं। आप उनसे WhatsApp पर सीख सकते हैं।";
+                if(val.includes("kaise ho")) reply = "मैं ठीक हूँ, आप कैसे हैं?";
+
+                setTimeout(() => {
+                    content.innerHTML += `<div class="chat-msg ai-msg">${reply}</div>`;
+                    content.scrollTop = content.scrollHeight;
+                }, 800);
+                input.value = "";
+            }
+        }
+
+        // Calculator Logic
+        function calcProfit() {
+            const cap = document.getElementById('capital').value;
+            const per = document.getElementById('percent').value;
+            if(cap && per) {
+                const result = (cap * per) / 100;
+                document.getElementById('calc-result').innerText = `आपका मुनाफा: $${result} | टोटल: $${Number(cap) + result}`;
+            }
+        }
+
+        // Forex Logic
+        async function fetchForexRate() {
+            try {
+                const response = await fetch('https://open.er-api.com/v6/latest/USD');
+                const data = await response.json();
+                document.getElementById('live-rate').innerText = `₹${data.rates.INR.toFixed(2)}`;
+            } catch (e) { console.log("API Error"); }
+        }
+        fetchForexRate();
+        setInterval(fetchForexRate, 60000);
+
+        // Theme Toggle
+        document.getElementById('theme-btn').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            document.getElementById('theme-btn').innerText = isLight ? "Light Mode" : "Dark Mode";
+        });
+    </script>
+</body>
+</html>
